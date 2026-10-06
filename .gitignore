@@ -1,0 +1,9 @@
+# Chrome generated indexed rulesets and internal metadata
+_metadata/
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
