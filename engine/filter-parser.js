@@ -131,6 +131,8 @@ export function parseDomains(rawDomains) {
   return { included, excluded };
 }
 
+const REGEX_RULE_REGEX = /^\/((?:\\.|[^\/])+)\/(\$(.*))?$/;
+
 /**
  * Parses a network blocking or allow rule.
  */
@@ -144,10 +146,25 @@ function parseNetworkRule(raw) {
   }
 
   let optionsStr = '';
-  const optIdx = text.indexOf('$');
-  if (optIdx !== -1) {
-    optionsStr = text.slice(optIdx + 1);
-    text = text.slice(0, optIdx);
+  let pattern = text;
+  let isRegex = false;
+
+  // Check if it is a regular expression rule: /pattern/ or /pattern/$options
+  if (text.startsWith('/')) {
+    const regexMatch = text.match(REGEX_RULE_REGEX);
+    if (regexMatch) {
+      isRegex = true;
+      pattern = regexMatch[1];
+      optionsStr = regexMatch[3] || '';
+    }
+  }
+
+  if (!isRegex) {
+    const optIdx = text.indexOf('$');
+    if (optIdx !== -1) {
+      optionsStr = text.slice(optIdx + 1);
+      pattern = text.slice(0, optIdx);
+    }
   }
 
   const options = parseOptions(optionsStr);
@@ -156,7 +173,9 @@ function parseNetworkRule(raw) {
   }
 
   // Parse pattern
-  const patternInfo = parseUrlPattern(text);
+  const patternInfo = isRegex
+    ? { regexFilter: pattern, isRegex: true }
+    : parseUrlPattern(pattern);
 
   return {
     type: 'network',

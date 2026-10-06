@@ -159,7 +159,10 @@
       "type": "block"
     },
     "condition": {
-      "regexFilter": "^https:\\/\\/[a-z]{3,}\\.com\\",
+      "regexFilter": "^https:\\/\\/[a-z]{3,}\\.com\\/$",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ],
       "domainType": "thirdParty"
     }
   },

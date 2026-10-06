@@ -15,6 +15,26 @@ export const REDIRECT_MAP = {
 };
 
 /**
+ * Validates whether a regular expression string is safe and supported by Chrome DNR (RE2 syntax).
+ * Prevents invalid regex rules from breaking manifest loading or runtime registration.
+ */
+export function isValidDnrRegex(pattern) {
+  if (!pattern || typeof pattern !== 'string' || pattern.length > 1024) return false;
+  // Non-ASCII characters are disallowed by Chrome DNR in regexFilter
+  if (/[^\x00-\x7F]/.test(pattern)) return false;
+  // Must be valid regex syntax
+  try {
+    new RegExp(pattern);
+  } catch {
+    return false;
+  }
+  // RE2 does not support lookarounds or backreferences
+  if (/\(\?[=!<]/.test(pattern)) return false; // lookaheads & lookbehinds
+  if (/\\[1-9]/.test(pattern)) return false;   // backreferences
+  return true;
+}
+
+/**
  * Validates and converts a parsed network rule to a DNR Rule object.
  * @param {object} parsedRule - Output of parseFilterLine
  * @param {number} ruleId - Unique rule ID
@@ -55,8 +75,10 @@ export function compileToDnrRule(parsedRule, ruleId) {
   const condition = {};
 
   if (parsedRule.isRegex && parsedRule.regexFilter) {
-    // Validate RE2-safe regex (basic check)
-    if (parsedRule.regexFilter.length > 1024) return null;
+    if (!isValidDnrRegex(parsedRule.regexFilter)) {
+      console.warn(`[DNR-Compiler] Skipping invalid/unsupported DNR regex: ${parsedRule.regexFilter}`);
+      return null;
+    }
     condition.regexFilter = parsedRule.regexFilter;
   } else if (parsedRule.urlFilter) {
     condition.urlFilter = sanitizeUrlFilter(parsedRule.urlFilter);

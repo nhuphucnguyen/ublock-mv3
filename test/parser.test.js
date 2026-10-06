@@ -80,6 +80,37 @@ test('parseFilterLine parses scriptlet rule ##+js(...)', () => {
   assert.deepEqual(rule.domains, ['example.com']);
 });
 
+test('parseFilterLine parses regex rules with options and anchors', () => {
+  const rule = parseFilterLine('/^https:\\/\\/[a-z]{3,}\\.com\\/$/$xmlhttprequest,third-party');
+  assert.ok(rule);
+  assert.equal(rule.type, 'network');
+  assert.equal(rule.isRegex, true);
+  assert.equal(rule.regexFilter, '^https:\\/\\/[a-z]{3,}\\.com\\/$');
+  assert.equal(rule.domainType, 'thirdParty');
+  assert.deepEqual(rule.resourceTypes, ['xmlhttprequest']);
+
+  // Plain regex without options
+  const plainRegex = parseFilterLine('/^https:\\/\\/[a-z]+\\.com\\//');
+  assert.ok(plainRegex);
+  assert.equal(plainRegex.isRegex, true);
+  assert.equal(plainRegex.regexFilter, '^https:\\/\\/[a-z]+\\.com\\/');
+
+  // Exception regex
+  const exRegex = parseFilterLine('@@/^https:\\/\\/safe\\.com\\/$/$script');
+  assert.ok(exRegex);
+  assert.equal(exRegex.isException, true);
+  assert.equal(exRegex.isRegex, true);
+  assert.equal(exRegex.regexFilter, '^https:\\/\\/safe\\.com\\/$');
+  assert.deepEqual(exRegex.resourceTypes, ['script']);
+
+  // Non-regex path pattern starting with /
+  const pathRule = parseFilterLine('/_BannerSlot.aspx$subdocument');
+  assert.ok(pathRule);
+  assert.equal(pathRule.isRegex, false);
+  assert.equal(pathRule.urlFilter, '/_BannerSlot.aspx');
+  assert.deepEqual(pathRule.resourceTypes, ['sub_frame']);
+});
+
 test('parseFilterList categorizes full filter list text', () => {
   const content = `
     ! Header comment
@@ -95,3 +126,4 @@ test('parseFilterList categorizes full filter list text', () => {
   assert.equal(result.cosmeticExceptions.length, 1);
   assert.equal(result.scriptlets.length, 1);
 });
+
