@@ -13,17 +13,26 @@ const tabStats = new Map();
 /**
  * Initialize on extension load / startup
  */
-async function initialize() {
-  await StorageManager.init();
-  await ruleManager.init();
-  setupContextMenus();
-  console.log('[AdBlock MV3] Service worker initialized successfully.');
+let initPromise = null;
+
+/**
+ * Initialize on extension load / startup
+ */
+function initialize() {
+  if (initPromise) return initPromise;
+  initPromise = (async () => {
+    await StorageManager.init();
+    await ruleManager.init();
+    console.log('[AdBlock MV3] Service worker initialized successfully.');
+  })();
+  return initPromise;
 }
 
 initialize();
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   await initialize();
+  setupContextMenus();
   if (details.reason === 'install') {
     // Set initial badge colors
     chrome.action.setBadgeBackgroundColor({ color: '#851414' });
@@ -122,16 +131,27 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 function setupContextMenus() {
   if (!chrome.contextMenus) return;
   chrome.contextMenus.removeAll(() => {
+    if (chrome.runtime.lastError) {
+      // Ignored
+    }
     chrome.contextMenus.create({
       id: 'adblock_pick_element',
       title: '⚡ Block element on this page...',
       contexts: ['all']
+    }, () => {
+      if (chrome.runtime.lastError) {
+        // Safely consume lastError to prevent unchecked errors
+      }
     });
 
     chrome.contextMenus.create({
       id: 'adblock_open_options',
       title: '⚙️ Open AdBlock Dashboard',
       contexts: ['action']
+    }, () => {
+      if (chrome.runtime.lastError) {
+        // Safely consume lastError to prevent unchecked errors
+      }
     });
   });
 }
