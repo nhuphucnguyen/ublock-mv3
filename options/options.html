@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uBlock MV3 - Dashboard</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-shield">🛡️</span>
+        <div class="brand-text">
+          <h2>uBlock <span class="tag">MV3</span></h2>
+          <span class="version">v1.0.0</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="tab-settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Settings
+        </button>
+
+        <button class="nav-item" data-tab="tab-filterlists">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          Filter Lists
+        </button>
+
+        <button class="nav-item" data-tab="tab-myfilters">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          My Filters
+        </button>
+
+        <button class="nav-item" data-tab="tab-trusted">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Trusted Sites
+        </button>
+
+        <button class="nav-item" data-tab="tab-tester">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          Rule Tester
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="stat-pill">
+          <span class="stat-pill-label">Total Blocked</span>
+          <span class="stat-pill-val" id="sb-total-blocked">0</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Tabs -->
+    <main class="content-area">
+
+      <!-- TAB 1: SETTINGS -->
+      <section class="tab-pane active" id="tab-settings">
+        <div class="pane-header">
+          <h1>Settings</h1>
+          <p class="subtitle">Customize blocking engine behaviors and preferences</p>
+        </div>
+
+        <div class="card">
+          <h3>General Preferences</h3>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="pref-enabled">Enable AdBlock Protection</label>
+              <span>Master switch to toggle ad and tracker blocking everywhere</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="pref-enabled">
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="pref-cosmetic">Cosmetic Element Hiding</label>
+              <span>Hide empty ad frames and placeholders using injected CSS</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="pref-cosmetic">
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="pref-badge">Show Block Counter on Toolbar Icon</label>
+              <span>Display the number of blocked items directly on extension icon badge</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="pref-badge">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Backup & Restore</h3>
+          <p class="card-desc">Export your custom filters, trusted sites, and configurations to JSON file, or restore from a previous backup.</p>
+          <div class="btn-group">
+            <button class="btn btn-secondary" id="btn-backup-export">Backup to File</button>
+            <button class="btn btn-secondary" id="btn-backup-import">Restore from File</button>
+            <input type="file" id="file-import-input" style="display: none;" accept=".json">
+            <button class="btn btn-danger" id="btn-reset-defaults">Reset to Defaults</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: FILTER LISTS -->
+      <section class="tab-pane" id="tab-filterlists">
+        <div class="pane-header">
+          <h1>Filter Lists</h1>
+          <p class="subtitle">Select pre-bundled Manifest V3 rulesets and external subscriptions</p>
+        </div>
+
+        <div class="card">
+          <div class="filter-list-header">
+            <h3>Built-in Rulesets (Declarative Net Request)</h3>
+            <span class="badge-tag">Fast & Battery Efficient</span>
+          </div>
+
+          <div class="ruleset-grid">
+            <!-- Ads Ruleset -->
+            <div class="ruleset-card">
+              <div class="ruleset-meta">
+                <h4>Ad Networks & Banners</h4>
+                <p>Blocks DoubleClick, AdSense, Taboola, Outbrain, and major ad servers.</p>
+                <div class="ruleset-tags">
+                  <span class="mini-tag">Static DNR</span>
+                  <span class="mini-tag">52 network rules</span>
+                  <span class="mini-tag">27 cosmetic rules</span>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="rs-ruleset_default">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <!-- Privacy Ruleset -->
+            <div class="ruleset-card">
+              <div class="ruleset-meta">
+                <h4>Privacy & Tracking Protection</h4>
+                <p>Blocks analytics, tracking pixels, telemetry, Facebook Pixel, and Hotjar.</p>
+                <div class="ruleset-tags">
+                  <span class="mini-tag">Static DNR</span>
+                  <span class="mini-tag">39 network rules</span>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="rs-ruleset_privacy">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <!-- Annoyances Ruleset -->
+            <div class="ruleset-card">
+              <div class="ruleset-meta">
+                <h4>Annoyances & Cookie Banners</h4>
+                <p>Hides GDPR/cookie popups, OneTrust banners, and newsletter nag screens.</p>
+                <div class="ruleset-tags">
+                  <span class="mini-tag">Static DNR</span>
+                  <span class="mini-tag">11 network rules</span>
+                  <span class="mini-tag">18 cosmetic rules</span>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="rs-ruleset_annoyances">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <!-- Social Ruleset -->
+            <div class="ruleset-card">
+              <div class="ruleset-meta">
+                <h4>Social Media Widgets</h4>
+                <p>Blocks Facebook, Twitter, and TikTok embedded tracking widgets.</p>
+                <div class="ruleset-tags">
+                  <span class="mini-tag">Static DNR</span>
+                  <span class="mini-tag">10 network rules</span>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="rs-ruleset_social">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Custom Subscriptions</h3>
+          <p class="card-desc">Subscribe to any third-party filter list URL (in EasyList or uBlock format).</p>
+          <div class="add-sub-bar">
+            <input type="url" id="sub-url-input" class="text-input" placeholder="https://example.com/filter-list.txt">
+            <button class="btn btn-primary" id="btn-add-subscription">Add Filter URL</button>
+          </div>
+          <div id="custom-subs-list" class="subs-container">
+            <p class="empty-state">No custom subscriptions added yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: MY FILTERS -->
+      <section class="tab-pane" id="tab-myfilters">
+        <div class="pane-header">
+          <h1>My Filters</h1>
+          <p class="subtitle">Write custom ad-blocking rules using standard ABP and uBlock syntax</p>
+        </div>
+
+        <div class="card editor-card">
+          <div class="editor-toolbar">
+            <div class="stats-summary" id="myfilters-stats">0 rules (0 network, 0 cosmetic)</div>
+            <div class="btn-group">
+              <button class="btn btn-secondary" id="btn-revert-filters">Revert</button>
+              <button class="btn btn-primary" id="btn-apply-filters">Apply Changes</button>
+            </div>
+          </div>
+
+          <textarea id="myfilters-editor" spellcheck="false" placeholder="! Enter custom filter rules here..."></textarea>
+
+          <div class="syntax-cheatsheet">
+            <h4>Syntax Quick Reference:</h4>
+            <div class="syntax-examples">
+              <div><code>||example.com^</code> <span>Block domain & subdomains</span></div>
+              <div><code>||example.com/banner.js$script</code> <span>Block specific script</span></div>
+              <div><code>@@||example.com^</code> <span>Exception / Whitelist rule</span></div>
+              <div><code>example.com##.ad-banner</code> <span>Hide element on site</span></div>
+              <div><code>##.advertisement</code> <span>Hide element on all sites</span></div>
+              <div><code>example.com#@#.ad-banner</code> <span>Unhide element exception</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: TRUSTED SITES -->
+      <section class="tab-pane" id="tab-trusted">
+        <div class="pane-header">
+          <h1>Trusted Sites (Allowlist)</h1>
+          <p class="subtitle">AdBlock will pause and not block any ads or elements on these domains</p>
+        </div>
+
+        <div class="card">
+          <h3>Add Trusted Domain</h3>
+          <div class="add-sub-bar">
+            <input type="text" id="trusted-domain-input" class="text-input" placeholder="e.g. wikipedia.org">
+            <button class="btn btn-primary" id="btn-add-trusted">Add to Trusted Sites</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="trusted-header">
+            <h3>Active Whitelist (<span id="trusted-count">0</span>)</h3>
+            <button class="btn btn-secondary btn-sm" id="btn-clear-trusted">Clear All</button>
+          </div>
+          <div id="trusted-list-container" class="trusted-tags">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: RULE TESTER / INSPECTOR -->
+      <section class="tab-pane" id="tab-tester">
+        <div class="pane-header">
+          <h1>Rule Tester / Inspector</h1>
+          <p class="subtitle">Test and debug how any rule or URL is parsed by the engine</p>
+        </div>
+
+        <div class="card">
+          <h3>Test a Filter Rule Line</h3>
+          <p class="card-desc">Type any ABP/uBlock rule to inspect its parsed representation and Declarative Net Request conversion:</p>
+          <div class="add-sub-bar">
+            <input type="text" id="test-rule-input" class="text-input" value="||doubleclick.net^$third-party,script">
+            <button class="btn btn-primary" id="btn-run-test-rule">Analyze Rule</button>
+          </div>
+
+          <div class="test-result-box" id="test-rule-output">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast" class="toast">Changes saved successfully</div>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>

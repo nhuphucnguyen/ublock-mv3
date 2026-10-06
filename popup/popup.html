@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uBlock Lite</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="brand">
+        <span class="logo-shield">🛡️</span>
+        <span class="brand-name">uBlock <span class="brand-tag">MV3</span></span>
+      </div>
+      <button class="icon-btn" id="btn-dashboard" title="Open Dashboard / Settings">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </header>
+
+    <!-- Site Domain Info -->
+    <div class="site-info">
+      <div class="domain-title" id="site-domain">Loading...</div>
+      <div class="status-indicator" id="site-status">Protected</div>
+    </div>
+
+    <!-- Power Toggle Button -->
+    <div class="power-button-wrapper">
+      <button class="power-button active" id="btn-power" title="Click to toggle blocking on this site">
+        <svg class="power-icon" viewBox="0 0 24 24" width="44" height="44" stroke="currentColor" stroke-width="2.5" fill="none">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+          <line x1="12" y1="2" x2="12" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-card">
+      <div class="stat-row">
+        <span class="stat-label">Blocked on this page</span>
+        <span class="stat-val highlight" id="stat-page-blocked">0</span>
+      </div>
+      <div class="stat-subrow">
+        <span>Network requests: <strong id="stat-req-blocked">0</strong></span>
+        <span>Hidden elements: <strong id="stat-elem-blocked">0</strong></span>
+      </div>
+      <div class="divider"></div>
+      <div class="stat-row">
+        <span class="stat-label">Blocked in total</span>
+        <span class="stat-val" id="stat-total-blocked">0</span>
+      </div>
+    </div>
+
+    <!-- Quick Action Bar -->
+    <div class="toolbar">
+      <button class="tool-btn" id="btn-pick-element" title="Element Picker (Select & Block)">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+        <span>Pick</span>
+      </button>
+
+      <button class="tool-btn" id="btn-reload-tab" title="Reload current page">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        <span>Reload</span>
+      </button>
+
+      <button class="tool-btn" id="btn-toggle-global" title="Toggle Global Protection Master Switch">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span id="global-toggle-text">Global</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

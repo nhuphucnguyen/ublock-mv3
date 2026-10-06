@@ -1,0 +1,19 @@
+{
+  "name": "ublock-mv3",
+  "version": "1.0.0",
+  "description": "High-performance Manifest V3 ad blocker for Chrome inspired by uBlock Origin",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/**/*.test.js",
+    "compile-rules": "node scripts/compile-rulesets.js"
+  },
+  "keywords": [
+    "adblock",
+    "ublock",
+    "chrome-extension",
+    "manifest-v3",
+    "declarative-net-request"
+  ],
+  "author": "",
+  "license": "GPL-3.0"
+}

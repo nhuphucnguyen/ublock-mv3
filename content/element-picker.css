@@ -1,0 +1,192 @@
+/* uBlock Origin style Element Picker Styles */
+
+#ublock-picker-highlight {
+  position: fixed !important;
+  pointer-events: none !important;
+  border: 2px solid #e53935 !important;
+  background-color: rgba(229, 57, 53, 0.25) !important;
+  z-index: 2147483646 !important;
+  transition: all 0.05s ease-out !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 0 8px rgba(229, 57, 53, 0.6) !important;
+}
+
+#ublock-picker-dialog {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  width: 440px !important;
+  max-width: 90vw !important;
+  background: #1e1e24 !important;
+  color: #f0f0f0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 13px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  z-index: 2147483647 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  line-height: 1.4 !important;
+}
+
+#ublock-picker-dialog * {
+  box-sizing: border-box !important;
+}
+
+.ublock-picker-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 14px !important;
+  background: #141418 !important;
+  border-bottom: 1px solid #2d2d38 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #fff !important;
+}
+
+.ublock-picker-badge {
+  background: #851414 !important;
+  color: #fff !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  margin-right: 6px !important;
+}
+
+.ublock-picker-close-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #aaa !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  padding: 0 4px !important;
+  line-height: 1 !important;
+}
+
+.ublock-picker-close-btn:hover {
+  color: #fff !important;
+}
+
+.ublock-picker-body {
+  padding: 14px !important;
+}
+
+.ublock-picker-field-group {
+  margin-bottom: 12px !important;
+}
+
+.ublock-picker-label {
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  color: #8e8ea0 !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+  display: block !important;
+}
+
+.ublock-picker-input {
+  width: 100% !important;
+  background: #101014 !important;
+  border: 1px solid #33333f !important;
+  color: #38bdf8 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 12px !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  outline: none !important;
+}
+
+.ublock-picker-input:focus {
+  border-color: #38bdf8 !important;
+}
+
+.ublock-picker-candidates {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  margin-bottom: 12px !important;
+  max-height: 110px !important;
+  overflow-y: auto !important;
+}
+
+.ublock-picker-candidate-item {
+  background: #252530 !important;
+  padding: 6px 10px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  color: #ccc !important;
+  cursor: pointer !important;
+  border: 1px solid transparent !important;
+  font-family: monospace !important;
+  word-break: break-all !important;
+}
+
+.ublock-picker-candidate-item:hover,
+.ublock-picker-candidate-item.active {
+  background: #2d3748 !important;
+  color: #60a5fa !important;
+  border-color: #3b82f6 !important;
+}
+
+.ublock-picker-depth-controls {
+  display: flex !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+}
+
+.ublock-picker-depth-btn {
+  flex: 1 !important;
+  background: #2a2a36 !important;
+  color: #ddd !important;
+  border: 1px solid #3d3d4e !important;
+  padding: 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+}
+
+.ublock-picker-depth-btn:hover:not(:disabled) {
+  background: #373748 !important;
+  color: #fff !important;
+}
+
+.ublock-picker-depth-btn:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+.ublock-picker-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+}
+
+.ublock-picker-btn {
+  padding: 7px 14px !important;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  border: none !important;
+  transition: opacity 0.15s !important;
+}
+
+.ublock-picker-btn-preview {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+.ublock-picker-btn-preview.active {
+  background: #d97706 !important;
+  color: #fff !important;
+}
+
+.ublock-picker-btn-create {
+  background: #851414 !important;
+  color: #fff !important;
+}
+
+.ublock-picker-btn-create:hover {
+  background: #a51d1d !important;
+}
