@@ -436,5 +436,71 @@
       "urlFilter": "||ping.chartbeat.net^",
       "isUrlFilterCaseSensitive": false
     }
+  },
+  {
+    "id": 2039,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||cloudflareinsights.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2040,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||mopinion.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2041,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||amplitude.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2042,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||api.amplitude.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2043,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||heapanalytics.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2044,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||datadoghq-browser-agent.com^",
+      "isUrlFilterCaseSensitive": false
+    }
   }
 ]

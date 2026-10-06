@@ -119,5 +119,27 @@
       "urlFilter": "||usercentrics.eu^",
       "isUrlFilterCaseSensitive": false
     }
+  },
+  {
+    "id": 3011,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||iubenda.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 3012,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||cdn.iubenda.com^",
+      "isUrlFilterCaseSensitive": false
+    }
   }
 ]

@@ -11,6 +11,9 @@ export const DEFAULT_ADS_RULES = `
 ||googleadservices.com^
 ||pagead2.googlesyndication.com^
 ||adservice.google.com^
+||adtrafficquality.google^
+||ep1.adtrafficquality.google^
+||ep2.adtrafficquality.google^
 ||adnxs.com^
 ||criteo.com^
 ||criteo.net^
@@ -58,6 +61,38 @@ export const DEFAULT_ADS_RULES = `
 ||contextweb.com^
 ||tribalfusion.com^
 ||adsonar.com^
+||steadfastsystem.com^
+||fvcwqkkqmuv.com^
+||antiadblocksystems.com^
+||12ezo5v60.com^
+||pncloudfl.com^
+||fluidplayer.com^
+||bannersnack.com^
+||adsterra.com^
+||adcash.com^
+||hilltopads.com^
+||monetag.com^
+||aniview.com^
+||connatix.com^
+||primis.tech^
+||playwire.com^
+||kargo.com^
+||zergnet.com^
+||sharethrough.com^
+||gumgum.com^
+||undertone.com^
+||nativeads.com^
+||adthrive.com^
+||mediavine.com^
+||snigel.com^
+||flashtalking.com^
+||serving-sys.com^
+||innovid.com^
+||adform.net^
+||moatads.com^
+||doubleverify.com^
+||iasds.com^
+||integralads.com^
 
 ! Cosmetic Ad Selectors
 ##.adsbygoogle
@@ -87,6 +122,13 @@ export const DEFAULT_ADS_RULES = `
 ##amp-ad
 ##aside[aria-label="advertisement" i]
 ##div[data-adzone]
+##iframe[id^="__clb-"]
+##iframe[src*="doubleclick"]
+##iframe[src*="adtrafficquality"]
+##iframe[src*="bannersnack"]
+##iframe[src*="amazon-adsystem"]
+##iframe[src*="fvcwqkkqmuv"]
+##iframe[src*="antiadblocksystems"]
 `;
 
 export const DEFAULT_PRIVACY_RULES = `
@@ -131,6 +173,12 @@ export const DEFAULT_PRIVACY_RULES = `
 ||appsflyer.com^
 ||kochava.com^
 ||ping.chartbeat.net^
+||cloudflareinsights.com^
+||mopinion.com^
+||amplitude.com^
+||api.amplitude.com^
+||heapanalytics.com^
+||datadoghq-browser-agent.com^
 `;
 
 export const DEFAULT_ANNOYANCES_RULES = `
@@ -147,6 +195,8 @@ export const DEFAULT_ANNOYANCES_RULES = `
 ||didomi.io^
 ||sdk.privacy-center.org^
 ||usercentrics.eu^
+||iubenda.com^
+||cdn.iubenda.com^
 
 ! Cosmetic Cookie Notices & Popups
 ##.onetrust-pc-dark-filter
@@ -167,6 +217,9 @@ export const DEFAULT_ANNOYANCES_RULES = `
 ##.sp-message-open
 ##div[id*="cookieConsent"]
 ##div[class*="cookieConsent"]
+##.iubenda-ibadge
+##iframe.iubenda-ibadge
+##[class*="iubenda-cs-"]
 `;
 
 export const DEFAULT_SOCIAL_RULES = `

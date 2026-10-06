@@ -16,14 +16,21 @@
   /**
    * Request cosmetic filters from service worker
    */
-  async function initCosmeticFiltering() {
+  async function initCosmeticFiltering(retries = 3) {
     try {
       const response = await chrome.runtime.sendMessage({
         type: 'GET_COSMETIC_FILTERS',
         domain: window.location.hostname
       });
 
-      if (!response || response.disabled || response.whitelisted) {
+      if (!response) {
+        if (retries > 0) {
+          setTimeout(() => initCosmeticFiltering(retries - 1), 250);
+        }
+        return;
+      }
+
+      if (response.disabled || response.whitelisted) {
         return;
       }
 
@@ -42,7 +49,9 @@
       // 3. Count hidden elements and observe dynamic mutations
       setupDOMObservation(activeSelectors, response.proceduralSelectors || []);
     } catch (err) {
-      // Background worker might be waking up
+      if (retries > 0) {
+        setTimeout(() => initCosmeticFiltering(retries - 1), 300);
+      }
     }
   }
 
@@ -58,9 +67,18 @@
 
     activeStyleEl.textContent = cssText;
 
-    const target = document.documentElement || document.head || document.body;
-    if (target && !document.getElementById('ublock-mv3-cosmetic-styles')) {
-      target.appendChild(activeStyleEl);
+    const append = () => {
+      const target = document.head || document.documentElement || document.body;
+      if (target && !document.getElementById('ublock-mv3-cosmetic-styles')) {
+        target.appendChild(activeStyleEl);
+      }
+    };
+
+    append();
+    if (!document.getElementById('ublock-mv3-cosmetic-styles')) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', append, { once: true });
+      }
     }
   }
 

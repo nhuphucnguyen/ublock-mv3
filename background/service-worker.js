@@ -171,6 +171,7 @@ if (chrome.contextMenus) {
  */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const handleAsync = async () => {
+    await initialize();
     switch (message.type) {
       case 'GET_TAB_STATE': {
         const tabId = message.tabId;
