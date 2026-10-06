@@ -93,6 +93,18 @@ export const DEFAULT_ADS_RULES = `
 ||doubleverify.com^
 ||iasds.com^
 ||integralads.com^
+||an.yandex.ru^
+||ymatuhin.ru^
+||advmaker.net^
+||advmaker.com^
+||advmaker.me^
+_advertising_ads_banner.
+/banners/pr_advertising_ads_banner.
+/banners/*advertising*
+/pr_advertising_ads_banner.
+/banners/*.gif$image
+/banners/*.png$image
+/banners/*.swf
 
 ! Cosmetic Ad Selectors
 ##.adsbygoogle
@@ -122,6 +134,13 @@ export const DEFAULT_ADS_RULES = `
 ##amp-ad
 ##aside[aria-label="advertisement" i]
 ##div[data-adzone]
+##[data-ads]
+##div[id^="yandex_rtb_"]
+##[id^="yandex_rtb_"]
+##img[src*="advertising_ads_banner"]
+##img[src*="/banners/"]
+##object[data*="advertising_ads_banner"]
+##embed[src*="advertising_ads_banner"]
 ##iframe[id^="__clb-"]
 ##iframe[src*="doubleclick"]
 ##iframe[src*="adtrafficquality"]
@@ -179,6 +198,12 @@ export const DEFAULT_PRIVACY_RULES = `
 ||api.amplitude.com^
 ||heapanalytics.com^
 ||datadoghq-browser-agent.com^
+||sentry-cdn.com^
+||browser.sentry-cdn.com^
+||js.sentry-cdn.com^
+||sentry.io^
+||bugsnag.com^
+bugsnag.min.js$script
 `;
 
 export const DEFAULT_ANNOYANCES_RULES = `

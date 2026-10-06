@@ -502,5 +502,74 @@
       "urlFilter": "||datadoghq-browser-agent.com^",
       "isUrlFilterCaseSensitive": false
     }
+  },
+  {
+    "id": 2045,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||sentry-cdn.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2046,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||browser.sentry-cdn.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2047,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||js.sentry-cdn.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2048,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||sentry.io^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2049,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "||bugsnag.com^",
+      "isUrlFilterCaseSensitive": false
+    }
+  },
+  {
+    "id": 2050,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "bugsnag.min.js",
+      "isUrlFilterCaseSensitive": false,
+      "resourceTypes": [
+        "script"
+      ]
+    }
   }
 ]
