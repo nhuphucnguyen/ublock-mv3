@@ -72,8 +72,8 @@ export function parseFilterLine(line) {
     };
   }
 
-  // 2. Check for Cosmetic exception: domain.com#@#selector
-  const cosmeticExceptionMatch = trimmed.match(/^([^#]*)#@#(.+)$/);
+  // 2. Check for Cosmetic exception: domain.com#@#selector or domain.com#@?#selector
+  const cosmeticExceptionMatch = trimmed.match(/^([^#]*)#(?:@#|@\?#)(.+)$/);
   if (cosmeticExceptionMatch) {
     const rawDomains = cosmeticExceptionMatch[1].trim();
     const selector = cosmeticExceptionMatch[2].trim();
@@ -88,8 +88,8 @@ export function parseFilterLine(line) {
     };
   }
 
-  // 3. Check for Cosmetic element hiding: domain.com##selector or ##selector
-  const cosmeticMatch = trimmed.match(/^([^#]*)##(.+)$/);
+  // 3. Check for Cosmetic element hiding: ##selector, #?#selector, #$?#selector
+  const cosmeticMatch = trimmed.match(/^([^#]*)#(?:#|\?#|\$\?#)(.+)$/);
   if (cosmeticMatch) {
     const rawDomains = cosmeticMatch[1].trim();
     const selector = cosmeticMatch[2].trim();
@@ -103,6 +103,11 @@ export function parseFilterLine(line) {
       excludedDomains: domains.excluded,
       isGeneric: domains.included.length === 0
     };
+  }
+
+  // Lines still containing '#' cannot be valid network rules (fragments are not sent to network)
+  if (trimmed.includes('#')) {
+    return null;
   }
 
   // 4. Network rule

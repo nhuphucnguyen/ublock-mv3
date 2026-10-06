@@ -57,3 +57,21 @@ test('compileWhitelistRules generates high-priority allow rules for trusted doma
   assert.equal(allowRules[0].action.type, 'allow');
   assert.deepEqual(allowRules[0].condition.initiatorDomains, ['wikipedia.org']);
 });
+
+test('compileToDnrRule sanitizes ||* and rejects invalid urlFilters', () => {
+  // Test sanitization of ||*.domain.com to ||domain.com
+  const parsedWildcardDomain = parseFilterLine('||*.servimg.com/u/f45/');
+  const rule = compileToDnrRule(parsedWildcardDomain, 5050);
+  assert.ok(rule);
+  assert.equal(rule.condition.urlFilter, '||servimg.com/u/f45/');
+
+  // Test skipping non-ascii or malformed urlFilters
+  const invalidRule = {
+    type: 'network',
+    raw: 'non-ascii-test',
+    urlFilter: 'metruyencv.com/quảng-cáo'
+  };
+  const compiled = compileToDnrRule(invalidRule, 9999);
+  assert.equal(compiled, null);
+});
+

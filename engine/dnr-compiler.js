@@ -81,7 +81,12 @@ export function compileToDnrRule(parsedRule, ruleId) {
     }
     condition.regexFilter = parsedRule.regexFilter;
   } else if (parsedRule.urlFilter) {
-    condition.urlFilter = sanitizeUrlFilter(parsedRule.urlFilter);
+    const sanitized = sanitizeUrlFilter(parsedRule.urlFilter);
+    if (!isValidDnrUrlFilter(sanitized)) {
+      console.warn(`[DNR-Compiler] Skipping invalid DNR urlFilter: "${parsedRule.urlFilter}" (sanitized: "${sanitized}")`);
+      return null;
+    }
+    condition.urlFilter = sanitized;
     condition.isUrlFilterCaseSensitive = false;
   } else {
     condition.urlFilter = '*';
@@ -122,13 +127,47 @@ export function compileToDnrRule(parsedRule, ruleId) {
 }
 
 /**
+ * Validates whether a urlFilter conforms strictly to Chrome Declarative Net Request constraints.
+ */
+export function isValidDnrUrlFilter(filter) {
+  if (!filter || typeof filter !== 'string') return false;
+  if (filter.length === 0 || filter.length > 2048) return false;
+  // Must consist of only ASCII characters
+  if (/[^\x00-\x7F]/.test(filter)) return false;
+  // Chrome DNR specification: A pattern beginning with ||* is not allowed. Use * instead.
+  if (filter.startsWith('||*')) return false;
+  // Must not contain consecutive wildcards
+  if (filter.includes('**')) return false;
+  // Misplaced || anchor (allowed only at beginning)
+  if (filter.slice(2).includes('||')) return false;
+  // Misplaced single | anchor (allowed only at beginning or end)
+  const inner = filter.startsWith('||') ? filter.slice(2) : (filter.startsWith('|') ? filter.slice(1) : filter);
+  const withoutEnd = inner.endsWith('|') ? inner.slice(0, -1) : inner;
+  if (withoutEnd.includes('|')) return false;
+  // Must not contain cosmetic/fragment markers
+  if (filter.includes('#')) return false;
+
+  return true;
+}
+
+/**
  * Normalizes urlFilter to conform to Declarative Net Request constraints.
  */
-function sanitizeUrlFilter(filter) {
+export function sanitizeUrlFilter(filter) {
   let f = filter.trim();
-  // If pattern is empty, match everything
   if (!f) return '*';
-  // Strip leading/trailing whitespaces
+
+  // Collapse multiple consecutive wildcards
+  f = f.replace(/\*{2,}/g, '*');
+
+  // Chrome DNR constraint: A pattern beginning with ||* is not allowed.
+  // In ABP syntax, ||*.domain.com matches domain and any subdomains, exactly what ||domain.com does.
+  if (f.startsWith('||*.')) {
+    f = '||' + f.slice(4);
+  } else if (f.startsWith('||*')) {
+    f = '*' + f.slice(3);
+  }
+
   return f;
 }
 

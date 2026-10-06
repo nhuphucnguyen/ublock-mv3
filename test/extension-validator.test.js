@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-import { isValidDnrRegex } from '../engine/dnr-compiler.js';
+import { isValidDnrRegex, isValidDnrUrlFilter } from '../engine/dnr-compiler.js';
 
 test('manifest.json is valid and references existing files', () => {
   const manifestPath = path.join(rootDir, 'manifest.json');
@@ -80,6 +80,13 @@ test('manifest.json is valid and references existing files', () => {
 
       assert.ok(rule.action && rule.action.type, `Rule ${rule.id} must have action.type`);
       assert.ok(rule.condition, `Rule ${rule.id} must have condition`);
+
+      if (rule.condition.urlFilter) {
+        assert.ok(
+          isValidDnrUrlFilter(rule.condition.urlFilter),
+          `Rule ${rule.id} in ${rr.path} specifies an invalid urlFilter: "${rule.condition.urlFilter}"`
+        );
+      }
 
       if (rule.condition.regexFilter) {
         assert.ok(
