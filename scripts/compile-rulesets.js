@@ -9,6 +9,7 @@ import {
   DEFAULT_ANNOYANCES_RULES,
   DEFAULT_SOCIAL_RULES
 } from '../engine/default-rules.js';
+import { ABPVN_RULES } from '../engine/abpvn-rules.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +24,8 @@ const sets = [
   { name: 'ruleset_default.json', text: DEFAULT_ADS_RULES, startId: 1000 },
   { name: 'ruleset_privacy.json', text: DEFAULT_PRIVACY_RULES, startId: 2000 },
   { name: 'ruleset_annoyances.json', text: DEFAULT_ANNOYANCES_RULES, startId: 3000 },
-  { name: 'ruleset_social.json', text: DEFAULT_SOCIAL_RULES, startId: 4000 }
+  { name: 'ruleset_social.json', text: DEFAULT_SOCIAL_RULES, startId: 4000 },
+  { name: 'ruleset_abpvn.json', text: ABPVN_RULES, startId: 5000 }
 ];
 
 console.log('Compiling default static rulesets...');

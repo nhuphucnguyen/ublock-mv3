@@ -11,6 +11,7 @@ import {
   DEFAULT_ANNOYANCES_RULES,
   DEFAULT_SOCIAL_RULES
 } from '../engine/default-rules.js';
+import { ABPVN_RULES } from '../engine/abpvn-rules.js';
 import { StorageManager } from './storage-manager.js';
 
 export class RuleManager {
@@ -33,6 +34,7 @@ export class RuleManager {
     this.cosmeticEngine.clear();
     const defaultAds = parseFilterList(DEFAULT_ADS_RULES);
     const defaultAnnoyances = parseFilterList(DEFAULT_ANNOYANCES_RULES);
+    const abpvnParsed = parseFilterList(ABPVN_RULES);
 
     this.cosmeticEngine.addRules([
       ...defaultAds.cosmeticRules,
@@ -40,7 +42,10 @@ export class RuleManager {
       ...defaultAds.scriptlets,
       ...defaultAnnoyances.cosmeticRules,
       ...defaultAnnoyances.cosmeticExceptions,
-      ...defaultAnnoyances.scriptlets
+      ...defaultAnnoyances.scriptlets,
+      ...abpvnParsed.cosmeticRules,
+      ...abpvnParsed.cosmeticExceptions,
+      ...abpvnParsed.scriptlets
     ]);
 
     // 3. Load custom rules and whitelist
@@ -60,7 +65,8 @@ export class RuleManager {
       'ruleset_default',
       'ruleset_privacy',
       'ruleset_annoyances',
-      'ruleset_social'
+      'ruleset_social',
+      'ruleset_abpvn'
     ];
 
     for (const id of allRulesets) {
@@ -167,5 +173,56 @@ export class RuleManager {
       whitelisted: false,
       ...filters
     };
+  }
+
+  /**
+   * Fetches an external filter subscription and applies updates.
+   */
+  async updateSubscription(url) {
+    if (!url) return { success: false, error: 'No URL provided' };
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const text = await resp.text();
+      const parsed = parseFilterList(text);
+
+      // Add cosmetic rules into engine
+      this.cosmeticEngine.addRules([
+        ...parsed.cosmeticRules,
+        ...parsed.cosmeticExceptions,
+        ...parsed.scriptlets
+      ]);
+
+      // Compile dynamic DNR rules
+      const dynamicDnr = compileRuleList(parsed.networkRules, 60000);
+      if (typeof chrome !== 'undefined' && chrome.declarativeNetRequest) {
+        const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
+        const existingSubRuleIds = existingRules.filter(r => r.id >= 60000 && r.id < 80000).map(r => r.id);
+        await chrome.declarativeNetRequest.updateDynamicRules({
+          removeRuleIds: existingSubRuleIds,
+          addRules: dynamicDnr
+        });
+      }
+
+      // Update storage subscription record
+      const settings = await StorageManager.getAllSettings();
+      const subs = settings.customSubscriptions || [];
+      const totalRules = parsed.networkRules.length + parsed.cosmeticRules.length;
+      const targetSub = subs.find(s => s.url === url);
+      if (targetSub) {
+        targetSub.ruleCount = totalRules;
+        targetSub.lastUpdated = new Date().toLocaleDateString();
+      }
+      await StorageManager.set({ customSubscriptions: subs });
+
+      return {
+        success: true,
+        networkCount: parsed.networkRules.length,
+        cosmeticCount: parsed.cosmeticRules.length
+      };
+    } catch (err) {
+      console.warn('[AdBlock] Failed to update subscription:', err);
+      return { success: false, error: err.message };
+    }
   }
 }

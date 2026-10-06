@@ -264,6 +264,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return { settings };
       }
 
+      case 'UPDATE_SUBSCRIPTION': {
+        const result = await ruleManager.updateSubscription(message.url);
+        return result;
+      }
+
       case 'SAVE_SETTINGS': {
         const { settings } = message;
         await StorageManager.set(settings);

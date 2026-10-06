@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const rsPrivacy = document.getElementById('rs-ruleset_privacy');
   const rsAnnoyances = document.getElementById('rs-ruleset_annoyances');
   const rsSocial = document.getElementById('rs-ruleset_social');
+  const rsAbpvn = document.getElementById('rs-ruleset_abpvn');
   const subUrlInput = document.getElementById('sub-url-input');
   const btnAddSubscription = document.getElementById('btn-add-subscription');
   const customSubsList = document.getElementById('custom-subs-list');
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     rsPrivacy.checked = rs.ruleset_privacy !== false;
     rsAnnoyances.checked = rs.ruleset_annoyances !== false;
     rsSocial.checked = rs.ruleset_social === true;
+    if (rsAbpvn) rsAbpvn.checked = rs.ruleset_abpvn !== false;
     renderSubscriptions();
 
     // 3. My Filters
@@ -113,7 +115,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       ruleset_default: rsDefault.checked,
       ruleset_privacy: rsPrivacy.checked,
       ruleset_annoyances: rsAnnoyances.checked,
-      ruleset_social: rsSocial.checked
+      ruleset_social: rsSocial.checked,
+      ruleset_abpvn: rsAbpvn ? rsAbpvn.checked : true
     };
 
     await chrome.runtime.sendMessage({
@@ -133,6 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   rsPrivacy.addEventListener('change', saveSettings);
   rsAnnoyances.addEventListener('change', saveSettings);
   rsSocial.addEventListener('change', saveSettings);
+  if (rsAbpvn) rsAbpvn.addEventListener('change', saveSettings);
 
   // Backup export
   btnBackupExport.addEventListener('click', () => {
@@ -318,8 +322,38 @@ document.addEventListener('DOMContentLoaded', async () => {
             <span class="mini-tag">Updated: ${sub.lastUpdated || 'Recently'}</span>
           </div>
         </div>
-        <button class="btn btn-danger btn-sm btn-del-sub">Delete</button>
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm btn-update-sub">Update</button>
+          <button class="btn btn-danger btn-sm btn-del-sub">Delete</button>
+        </div>
       `;
+
+      const updateBtn = item.querySelector('.btn-update-sub');
+      updateBtn.addEventListener('click', async () => {
+        updateBtn.disabled = true;
+        updateBtn.textContent = 'Updating...';
+        showToast(`Updating ${sub.name}...`);
+
+        try {
+          const res = await chrome.runtime.sendMessage({
+            type: 'UPDATE_SUBSCRIPTION',
+            url: sub.url
+          });
+
+          if (res && res.success) {
+            showToast(`Updated ${sub.name} (${res.networkCount + res.cosmeticCount} rules)`);
+            await loadData();
+          } else {
+            showToast(`Update failed: ${res?.error || 'Network error'}`);
+            updateBtn.disabled = false;
+            updateBtn.textContent = 'Update';
+          }
+        } catch (e) {
+          showToast(`Update failed: ${e.message}`);
+          updateBtn.disabled = false;
+          updateBtn.textContent = 'Update';
+        }
+      });
 
       item.querySelector('.btn-del-sub').addEventListener('click', async () => {
         currentSettings.customSubscriptions = currentSettings.customSubscriptions.filter(s => s.url !== sub.url);

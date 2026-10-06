@@ -11,10 +11,20 @@ const DEFAULT_SETTINGS = {
     'ruleset_default': true,
     'ruleset_privacy': true,
     'ruleset_annoyances': true,
-    'ruleset_social': false
+    'ruleset_social': false,
+    'ruleset_abpvn': true
   },
   customFilters: `! My Custom Filters\n! Add your ABP / uBlock Origin syntax filters here\n! Example: ||example-ad.com^\n! Example: site.com##.sponsor-banner\n`,
-  customSubscriptions: [],
+  customSubscriptions: [
+    {
+      id: 'sub_abpvn',
+      name: 'ABPVN List (Vietnam)',
+      url: 'https://abpvn.com/filter/abpvn-lpQf4a.txt',
+      enabled: true,
+      ruleCount: 1061,
+      lastUpdated: new Date().toLocaleDateString()
+    }
+  ],
   stats: {
     totalBlocked: 0,
     totalCosmetic: 0
